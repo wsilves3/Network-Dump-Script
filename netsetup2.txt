@@ -1,0 +1,48 @@
+# netsetup2.sh
+# 12/08/2021
+# Wendy Silvestre
+# !/bin/bash
+
+ 
+# File to dump network info 
+NETSETUPFILE="network_setup.$(date +'%m-%d-%y').txt"
+
+# Create Network_Setup File
+touch NETSETUPFILE
+ 
+# Title for report
+echo "*********************************************" >> $NETSETUPFILE
+echo "* NETWORK CONFIGURATION REPORT              *" >> $NETSETUPFILE
+echo "*********************************************" >> $NETSETUPFILE
+
+# Reporting Host Name & Report Date
+echo "* Hostname: $(hostname)" >>$NETSETUPFILE
+echo "* Date: $(date)" >>$NETSETUPFILE
+ 
+# Reporting Network Interfaces Information : Using ip address command
+echo "*********************************************" >> $NETSETUPFILE
+echo "* NETWORK INTERFACES                        *" >> $NETSETUPFILE
+echo "*********************************************" >> $NETSETUPFILE
+ip address >> $NETSETUPFILE
+
+# Reporting Routing Table : Using ip route command
+echo "*********************************************" >> $NETSETUPFILE
+echo "* ROUTING TABLE                             *" >> $NETSETUPFILE
+echo "*********************************************" >> $NETSETUPFILE
+ip route >> $NETSETUPFILE
+
+# Reporting DNS Configuration: Display /etc/resolv.conf file
+echo "*********************************************" >> $NETSETUPFILE
+echo "* DNS CLIENT /etc/resolv.conf CONFIGURATION *" >> $NETSETUPFILE
+echo "*********************************************" >> $NETSETUPFILE
+cat /etc/resolv.conf >> $NETSETUPFILE
+ 
+# Reporting Ports and Connection Status
+echo "*********************************************" >> $NETSETUPFILE
+echo "* PORTS & CONNECTION STATUS                 *" >> $NETSETUPFILE
+echo "*********************************************" >> $NETSETUPFILE
+netstat -a -n >> $NETSETUPFILE
+
+# Displaying report 
+cat $NETSETUPFILE | more
+echo "Network Configuration File was created: $NETSETUPFILE"
